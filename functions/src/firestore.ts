@@ -1,10 +1,10 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 
 const db = admin.firestore();
 
 export const gameCount = functions.firestore
-  .document('games/{gameId}')
+  .document("games/{gameId}")
   .onCreate(async (snapshot, context) => {
     const data = snapshot.data();
 
@@ -13,12 +13,12 @@ export const gameCount = functions.firestore
     const userData = userSnap.data();
 
     return userRef.update({
-      gameCount: userData.gameCount + 1
+      gameCount: userData.gameCount + 1,
     });
   });
 
 export const userTrend = functions.firestore
-  .document('games/{gameId}')
+  .document("games/{gameId}")
   .onUpdate((snapshot, context) => {
     const before = snapshot.before.data();
     const after = snapshot.after.data();
@@ -26,15 +26,15 @@ export const userTrend = functions.firestore
     let trend;
 
     if (after.score >= before.score) {
-      trend = 'you are improving :)';
+      trend = "you are improving :)";
     } else {
-      trend = 'you are on the decline :(';
+      trend = "you are on the decline :(";
     }
 
     const userRef = db.doc(`users/${after.uid}`);
 
     return userRef.update({
-      trend
+      trend,
     });
   });
 
