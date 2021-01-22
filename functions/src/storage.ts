@@ -16,13 +16,15 @@ export const resizeAvatar = functions.storage
   .onFinalize(async object => {
     const bucket = gcs.bucket(object.bucket);
 
-    // abc.png
+    // path/abc.png
     const filePath = object.name;
-    // abc
+    // abc.png
     const fileName = filePath.split('/').pop();
+    // /tmp/abc.png
     const tmpFilePath = join(tmpdir(), object.name);
-
+    // avatar_abc.png
     const avatarFileName = 'avatar_' + fileName;
+    // /tmp/avatar_abc.png
     const tmpAvatarPath = join(tmpdir(), avatarFileName);
 
     functions.logger.log("filePath:", filePath);
