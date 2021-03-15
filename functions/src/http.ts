@@ -60,7 +60,7 @@ app.get("/createPosts", (request, response) => {
   const userRef = db.collection(`users`).doc();
 
   userRef.set(userObject).then(value => {
-    response.send(value.writeTime.seconds);
+    response.send(value);
   });
 
   

@@ -5,7 +5,13 @@
 // export { resizeAvatar } from './storage';
 import * as admin from "firebase-admin";
 
-admin.initializeApp();
+// tslint:disable-next-line:no-implicit-dependencies
+var serviceAccount = require("../serviceAccountKey.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://quotes-1604023917950.firebaseio.com"
+});
 
 
 export { createUserRecord } from './auth';
