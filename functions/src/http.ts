@@ -1,6 +1,6 @@
 // import { response } from 'express';
 import * as functions from "firebase-functions";
-
+import * as admin from "firebase-admin";
 import * as express from "express";
 import * as cors from "cors";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
@@ -46,6 +46,24 @@ app.post("/quill-delta-to-html", (request, response) => {
 
   var html = converter.convert();
   response.send(html);
+});
+
+const db = admin.firestore();
+
+app.get("/createPosts", (request, response) => {
+
+  var userObject = {
+    displayName : "user.displayName",
+    email : "user.email",
+ };
+
+  const userRef = db.collection(`users`).doc();
+
+  userRef.set(userObject).then(value => {
+    response.send(value.writeTime.seconds);
+  });
+
+  
 });
 
 export const api = functions.https.onRequest(app);
